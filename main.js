@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    let userInput = '';
     let wikiURL = '';
     let prefixURL = "https://en.wikipedia.org/w/api.php?format=json&action=query&list=search&srsearch=";
     let contentUrl = 'https://ru.wikipedia.org/wiki/';
@@ -18,7 +17,7 @@ $(document).ready(function () {
     $("#search").click(function () {
             // gets the search input by the user
             let userInput = $("#user_input").val();
-
+            var url = "https://en.wikipedia.org/w/api.php?action=opensearch&search="+ userInput +"&format=json&callback=?";
             if (userInput !== "") {
                 whitespaceSearchVal = userInput.replace(whitespaceRegex, "%20") + '&format=json&callback=?';
 
@@ -26,19 +25,19 @@ $(document).ready(function () {
                 wikiURL + "&continue=";
 
                 $.ajax({
-                        type: "GET",
-                        url: wikiURL,
-                        async: false,
-                        dataType: "jsonp",
-                        success: function (response) {
-                            if (response == undefined)
-                                $("#output").prepend("Соответствий запросу не найдено.");
-                            $("#output").html('');
-                            for (var i = 0; i < pagesCount; i++) {
-                            titleVal = response.query.search[i].title;
-                            whitespaceTitleVal = contentUrl + titleVal.replace(/\s+/g, '_');
-                            $("#output").prepend("<div class='result-display'><h2>" + response.query.search[i].title + "</h2><p>" + response.query.search[i].snippet + "</p><a target='_blank' href='" + whitespaceTitleVal + "'>Read More</a></div>");
-                            } 
+                    type : "GET",
+                    url : url,
+                    contentType:"application/json;charset=utf-8",
+                    async : false,
+                    dataType: "json",
+                    success : function(data,textStatus,jqXHR){
+                      $('#output').html('');  //Перезаписать содержимое всех соответствующих элементов
+                      for(var i=0; i<data[1].length; i++){
+                        $('#output').prepend("<li><a href="+ data[3][i] +">"+ data[1][i] +"</a><p>"+ data[2][i] +"</p></li>");
+                      }
+                      $('#user_input').val('');
+                     // console.log(data);
+                     //console.log(url);
                     },
                     error: function (error) {
                         alert("error!");
