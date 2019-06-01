@@ -13,7 +13,7 @@ $(document).ready(function () {
                 success: function (data, textStatus, jqXHR) {
                     $('#output').html(''); //Перезаписать содержимое всех соответствующих элементов
                     for (let i = 0; i < data[1].length; i++) {
-                        $('#output').prepend("<h1><a href=" + data[3][i] + ">" + data[1][i] + "</a></h1><p>" + data[2][i] + "</p></li>");
+                        $('#output').prepend("<h2><a href=" + data[3][i] + ">" + data[1][i] + "</a></h2><p>" + data[2][i] + "</p></li>");
                         //data[3][i] - ссылка на статью  data[1][i] - заголловок статьи data[2][i] - сниппет
                     }
                     $('#user_input').val('');
@@ -25,7 +25,7 @@ $(document).ready(function () {
         }
     });
     // allows search to run when enter button is clicked
-    $('#userInput').keypress(function (event) {
+    $('#user_input').keypress(function (event) {
         if (event.which === 13) {
             $("#search").click();
         }
