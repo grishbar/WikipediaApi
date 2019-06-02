@@ -1,5 +1,3 @@
-# naumenTestTask
-naumenTestTask
 Приложение, с помощью которого можно искать текстовую
 информацию в Wikipediа, испольующее открытое API Wikipedia.
 -
